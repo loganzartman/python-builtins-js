@@ -14,6 +14,20 @@ function any(iterable) {
 	return false;
 }
 
+function iter(iterable) {
+	return iterable[Symbol.iterator]();
+}
+
+function next(iterator, defaultVal) {
+	const n = iterator.next();
+	if (n.done) {
+		if (typeof defaultVal !== "undefined")
+			return defaultVal;
+		throw new Error("StopIteration");
+	}
+	return n.value;
+}
+
 function* range(a, b, step=1) {
 	if (typeof b === "undefined") {
 		b = a;
@@ -28,14 +42,16 @@ function* range(a, b, step=1) {
 }
 
 function* zip(...iterables) {
-	const iterators = iterables.map(i => i[Symbol.iterator]());
+	const iterators = iterables.map(i => iter(i));
 	while (iterators) {
 		let tuple = [];
 		for (let it of iterators) {
-			const n = it.next();
-			if (n.done)
+			try {
+				tuple.push(next(it));
+			}
+			catch (e) {
 				return;
-			tuple.push(n.value);
+			}
 		}
 		yield tuple;
 	}

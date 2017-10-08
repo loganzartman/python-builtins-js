@@ -14,6 +14,18 @@ function any(iterable) {
 	return false;
 }
 
+function* enumerate(iterable, start=0) {
+	const iterator = iter(iterable);
+	for (let i=start;;++i) {
+		try {
+			yield [i, next(iterator)];
+		}
+		catch (e) {
+			return;
+		}
+	}
+}
+
 function* filter(f, iterable) {
 	for (let x of iterable)
 		if (f(x))
@@ -53,6 +65,13 @@ function* range(a, b, step=1) {
 	}
 }
 
+function sum(iterable, start=0) {
+	let result = start;
+	for (let x of iterable)
+		result += x;
+	return result;
+}
+
 function* zip(...iterables) {
 	const iterators = iterables.map(i => iter(i));
 	while (iterators) {
@@ -69,4 +88,4 @@ function* zip(...iterables) {
 	}
 }
 
-export {all, any, filter, iter, map, next, range, zip};
+export {all, any, enumerate, filter, iter, map, next, range, sum, zip};

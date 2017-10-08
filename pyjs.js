@@ -125,5 +125,3 @@ function* zip(...iterables) {
 		yield tuple;
 	}
 }
-
-export {all, any, enumerate, filter, iter, map, next, range, sorted, sum, zip};

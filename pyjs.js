@@ -1,3 +1,19 @@
+function all(iterable) {
+	for (let x of iterable) {
+		if (!x)
+			return false;
+	}
+	return true;
+}
+
+function any(iterable) {
+	for (let x of iterable) {
+		if (x)
+			return true;
+	}
+	return false;
+}
+
 function* range(a, b, step=1) {
 	if (typeof b === "undefined") {
 		b = a;

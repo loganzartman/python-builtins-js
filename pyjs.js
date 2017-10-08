@@ -36,6 +36,18 @@ function iter(iterable) {
 	return iterable[Symbol.iterator]();
 }
 
+function list(iterable=[]) {
+	if (!(Symbol.iterator in iterable))
+		throw new Error(`TypeError: '${typeof iterable}' object is not iterable`);
+	return Array.from(iterable);
+}
+
+function len(s) {
+	if (!("length" in s))
+		throw new Error(`TypeError: object of type '${typeof s}' has no len()`);
+	return s.length;
+}
+
 function* map(f, ...iterables) {
 	const argSets = zip(...iterables);
 	for (let args of argSets)

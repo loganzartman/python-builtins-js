@@ -1,4 +1,4 @@
-function all(iterable) {
+export function all(iterable) {
 	for (let x of iterable) {
 		if (!x)
 			return false;
@@ -6,7 +6,7 @@ function all(iterable) {
 	return true;
 }
 
-function any(iterable) {
+export function any(iterable) {
 	for (let x of iterable) {
 		if (x)
 			return true;
@@ -14,11 +14,11 @@ function any(iterable) {
 	return false;
 }
 
-function iter(iterable) {
+export function iter(iterable) {
 	return iterable[Symbol.iterator]();
 }
 
-function next(iterator, defaultVal) {
+export function next(iterator, defaultVal) {
 	const n = iterator.next();
 	if (n.done) {
 		if (typeof defaultVal !== "undefined")
@@ -28,7 +28,7 @@ function next(iterator, defaultVal) {
 	return n.value;
 }
 
-function* range(a, b, step=1) {
+export function* range(a, b, step=1) {
 	if (typeof b === "undefined") {
 		b = a;
 		a = 0;
@@ -41,7 +41,7 @@ function* range(a, b, step=1) {
 	}
 }
 
-function* zip(...iterables) {
+export function* zip(...iterables) {
 	const iterators = iterables.map(i => iter(i));
 	while (iterators) {
 		let tuple = [];

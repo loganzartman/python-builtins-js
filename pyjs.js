@@ -14,6 +14,12 @@ function any(iterable) {
 	return false;
 }
 
+function* filter(f, iterable) {
+	for (let x of iterable)
+		if (f(x))
+			yield x;
+}
+
 function iter(iterable) {
 	return iterable[Symbol.iterator]();
 }
@@ -63,4 +69,4 @@ function* zip(...iterables) {
 	}
 }
 
-export {all, any, iter, map, next, range, zip};
+export {all, any, filter, iter, map, next, range, zip};

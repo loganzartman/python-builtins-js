@@ -1,3 +1,16 @@
+function* range(a, b, step=1) {
+	if (typeof b === "undefined") {
+		b = a;
+		a = 0;
+	}
+	const constraint = step > 0 ? (x => x < b) : (x => x > b);
+	let x = a;
+	while (constraint(x)) {
+		yield x;
+		x += step;
+	}
+}
+
 function* zip(...iterables) {
 	const iterators = iterables.map(i => i[Symbol.iterator]());
 	while (iterators) {

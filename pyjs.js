@@ -1,3 +1,10 @@
+class StopIteration extends Error {
+	constructor(message) {
+		super(message);
+		this.name = "StopIteration";
+	}
+}
+
 function all(iterable) {
 	for (let x of iterable) {
 		if (!x)
@@ -38,13 +45,13 @@ function iter(iterable) {
 
 function list(iterable=[]) {
 	if (!(Symbol.iterator in iterable))
-		throw new Error(`TypeError: '${typeof iterable}' object is not iterable`);
+		throw new TypeError(`'${typeof iterable}' object is not iterable`);
 	return Array.from(iterable);
 }
 
 function len(s) {
 	if (!("length" in s))
-		throw new Error(`TypeError: object of type '${typeof s}' has no len()`);
+		throw new TypeError(`object of type '${typeof s}' has no len()`);
 	return s.length;
 }
 
@@ -59,9 +66,13 @@ function next(iterator, defaultVal) {
 	if (n.done) {
 		if (typeof defaultVal !== "undefined")
 			return defaultVal;
-		throw new Error("StopIteration");
+		throw new StopIteration();
 	}
 	return n.value;
+}
+
+function print(...args) {
+	console.log.apply(this, args);
 }
 
 function range(a, b, step=1) {
@@ -82,6 +93,13 @@ function range(a, b, step=1) {
 		return gen();
 	};
 	return gen;
+}
+
+function* reversed(iterable) {
+	if (!(iterable instanceof Array))
+		iterable = Array.from(iterable);
+	for (let i = iterable.length-1; i >= 0; --i)
+		yield iterable[i];
 }
 
 function sorted(iterable, {key=null, reverse=false}={}) {

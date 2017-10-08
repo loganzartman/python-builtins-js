@@ -65,11 +65,37 @@ function* range(a, b, step=1) {
 	}
 }
 
+function sorted(iterable, {key=null, reverse=false}={}) {
+	let result = Array.from(iterable);
+	if (key === null)
+		key = x => x;
+	result.sort((a,b) => {
+		a = key(a);
+		b = key(b);
+		if (a > b) {
+			if (reverse)
+				return -1;
+			return 1;
+		}
+		else if (a < b) {
+			if (reverse)
+				return 1;
+			return -1;
+		}
+		return 0;
+	});
+	return result;
+}
+
 function sum(iterable, start=0) {
 	let result = start;
 	for (let x of iterable)
 		result += x;
 	return result;
+}
+
+function vars(obj=this) {
+	return Object.keys(obj);
 }
 
 function* zip(...iterables) {
@@ -88,4 +114,4 @@ function* zip(...iterables) {
 	}
 }
 
-export {all, any, enumerate, filter, iter, map, next, range, sum, zip};
+export {all, any, enumerate, filter, iter, map, next, range, sorted, sum, zip};

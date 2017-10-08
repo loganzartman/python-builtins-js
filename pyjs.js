@@ -64,17 +64,24 @@ function next(iterator, defaultVal) {
 	return n.value;
 }
 
-function* range(a, b, step=1) {
+function range(a, b, step=1) {
 	if (typeof b === "undefined") {
 		b = a;
 		a = 0;
 	}
 	const constraint = step > 0 ? (x => x < b) : (x => x > b);
-	let x = a;
-	while (constraint(x)) {
-		yield x;
-		x += step;
-	}
+	
+	const gen = function*() {
+		let x = a;
+		while (constraint(x)) {
+			yield x;
+			x += step;
+		}
+	};
+	gen[Symbol.iterator] = function() {
+		return gen();
+	};
+	return gen;
 }
 
 function sorted(iterable, {key=null, reverse=false}={}) {

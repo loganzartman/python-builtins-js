@@ -21,6 +21,17 @@ function any(iterable) {
 	return false;
 }
 
+function dict(iterable) {
+	if (typeof iterable === "undefined")
+		return new Map();
+	if (Symbol.iterator in iterable)
+		return new Map(iterable);
+	if (typeof iterable === "object")
+		return new Map(zip(Object.keys(iterable), 
+			Object.keys(iterable).map(k => iterable[k])));
+	throw new TypeError(`'${typeof iterable}' object is not iterable`);
+}
+
 function* enumerate(iterable, start=0) {
 	const iterator = iter(iterable);
 	for (let i=start;;++i) {
@@ -100,6 +111,10 @@ function* reversed(iterable) {
 		iterable = Array.from(iterable);
 	for (let i = iterable.length-1; i >= 0; --i)
 		yield iterable[i];
+}
+
+function set(iterable) {
+	return new Set(iterable);
 }
 
 function sorted(iterable, {key=null, reverse=false}={}) {

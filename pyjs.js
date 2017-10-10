@@ -50,7 +50,7 @@ function list(iterable=[]) {
 }
 
 function len(s) {
-	if (!("length" in s))
+	if (!(s.length))
 		throw new TypeError(`object of type '${typeof s}' has no len()`);
 	return s.length;
 }
